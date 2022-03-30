@@ -170,7 +170,7 @@ demo1.ui = {
             // Get the attribute from the updated control
             let updateAttribute = formContext.getAttribute(updateLogicalName);
             let fieldValue = updateAttribute.getValue();
-            let tabObj = formContext.ui.tabs.get("tabLogicalName");
+            let tabObj = formContext.ui.tabs.get(tabLogicalName);
             let toggleControl = tabObj.sections.get(toggleLogicalName);
             toggleControl.setVisible((fieldValue == null) ? false : true); // hide control if field value is null(falsy)
             formContext.data.refresh(true);
