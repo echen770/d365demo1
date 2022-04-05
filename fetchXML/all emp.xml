@@ -1,0 +1,144 @@
+<!-- query for all employee list with two parameters: @pDept, @pGender -->
+<!-- Add a 'count="5000"' property to the opening fetch tag to bypass the visual studio's 500 preview record limit. -->
+<!-- Set the limit to a number higher than 5000 if needed, however, it is generally not recommended. -->
+<fetch>
+  <entity name="cra31_employee1">
+    <attribute name="cra31_last_name" />
+    <attribute name="cra31_fullname" />
+    <attribute name="cra31_gender" />
+    <attribute name="cra31_hire_date" />
+    <attribute name='cra31_yearsofservice' />
+    <attribute name="cra31_ethnicity" />
+    <attribute name="cra31_job" />
+    <attribute name="cra31_positions" />
+    <attribute name="cra31_email" />
+    <attribute name="cra31_phone" />
+    <attribute name="cra31_homecity" />
+    <attribute name="cra31_first_name" />
+    <attribute name="cra31_mailcity" />
+    <attribute name="cra31_employee1id" />
+    <attribute name="cra31_position" />
+    <attribute name="cra31_typename" />
+    <attribute name="cra31_station" />
+    <attribute name="cra31_department" />
+    <attribute name="cra31_age" />
+    <filter>
+      <condition attribute="cra31_department" operator="in" uitype="cra31_department1" value="@pDepartment" />
+    </filter>
+    <filter>
+      <condition attribute="cra31_gender" operator="in" value="@pGender" />
+    </filter>
+    <link-entity name="cra31_department1" from="cra31_department1id" to="cra31_department" link-type="outer">
+      <attribute name="cra31_department" />
+      <attribute name="cra31_department1id" />
+    </link-entity>
+    <link-entity name="cra31_ethnicity1" from="cra31_ethnicity1id" to="cra31_ethnicity" link-type="outer">
+      <attribute name="cra31_ethnicity1id" />
+      <attribute name="cra31_ethnicity" />
+    </link-entity>
+    <link-entity name="cra31_city1" from="cra31_city1id" to="cra31_homecity" link-type="outer" alias="HomeCity">
+      <attribute name="cra31_city1id" />
+      <attribute name="cra31_city" />
+    </link-entity>
+    <link-entity name="cra31_job1" from="cra31_job1id" to="cra31_job" link-type="outer">
+      <attribute name="cra31_job1id" />
+      <attribute name="cra31_job" />
+    </link-entity>
+    <link-entity name="cra31_city1" from="cra31_city1id" to="cra31_mailcity" link-type="outer" alias="MailCity">
+      <attribute name="cra31_city1id" />
+      <attribute name="cra31_city" />
+    </link-entity>
+    <link-entity name="cra31_position1" from="cra31_position1id" to="cra31_positions" link-type="outer">
+      <attribute name="cra31_position1id" />
+      <attribute name="cra31_department" />
+      <attribute name="cra31_station" />
+      <attribute name="cra31_job" />
+      <attribute name="cra31_position" />
+    </link-entity>
+    <link-entity name="cra31_station1" from="cra31_station1id" to="cra31_station" link-type="outer">
+      <attribute name="cra31_station1id" />
+      <attribute name="cra31_station" />
+    </link-entity>
+  </entity>
+</fetch>
+
+
+<!-- filter query for Department -->
+<fetch>
+  <entity name="cra31_department1">
+    <attribute name="cra31_department" />
+    <attribute name="cra31_department1id" />
+  </entity>
+</fetch>
+
+<!-- filter query for DISTINCT gender values -->
+<fetch distinct='true'>
+  <entity name='cra31_employee1'>
+    <attribute name='cra31_gender' />
+    <filter>
+      <condition attribute='cra31_gender' operator='not-null' />
+    </filter>
+    <order attribute='cra31_gender' />
+  </entity>
+</fetch>
+
+<!-- query for all employee list with one parameters: @pFullname -->
+<!-- Add a 'count="5000"' property to the opening fetch tag to bypass the visual studio's 500 preview record limit. -->
+<!-- Set the limit to a number higher than 5000 if needed, however, it is generally not recommended. -->
+<fetch>
+  <entity name="cra31_employee1">
+    <attribute name="cra31_last_name" />
+    <attribute name="cra31_fullname" />
+    <attribute name="cra31_gender" />
+    <attribute name="cra31_hire_date" />
+    <attribute name='cra31_yearsofservice' />
+    <attribute name="cra31_ethnicity" />
+    <attribute name="cra31_job" />
+    <attribute name="cra31_positions" />
+    <attribute name="cra31_email" />
+    <attribute name="cra31_phone" />
+    <attribute name="cra31_homecity" />
+    <attribute name="cra31_first_name" />
+    <attribute name="cra31_mailcity" />
+    <attribute name="cra31_employee1id" />
+    <attribute name="cra31_position" />
+    <attribute name="cra31_typename" />
+    <attribute name="cra31_station" />
+    <attribute name="cra31_department" />
+    <attribute name="cra31_age" />
+    <filter>
+      <condition attribute="cra31_fullname" operator="like" uitype="cra31_fullname" value="@pFullname" />
+    </filter>
+    <link-entity name="cra31_department1" from="cra31_department1id" to="cra31_department" link-type="outer">
+      <attribute name="cra31_department" />
+      <attribute name="cra31_department1id" />
+    </link-entity>
+    <link-entity name="cra31_ethnicity1" from="cra31_ethnicity1id" to="cra31_ethnicity" link-type="outer">
+      <attribute name="cra31_ethnicity1id" />
+      <attribute name="cra31_ethnicity" />
+    </link-entity>
+    <link-entity name="cra31_city1" from="cra31_city1id" to="cra31_homecity" link-type="outer" alias="HomeCity">
+      <attribute name="cra31_city1id" />
+      <attribute name="cra31_city" />
+    </link-entity>
+    <link-entity name="cra31_job1" from="cra31_job1id" to="cra31_job" link-type="outer">
+      <attribute name="cra31_job1id" />
+      <attribute name="cra31_job" />
+    </link-entity>
+    <link-entity name="cra31_city1" from="cra31_city1id" to="cra31_mailcity" link-type="outer" alias="MailCity">
+      <attribute name="cra31_city1id" />
+      <attribute name="cra31_city" />
+    </link-entity>
+    <link-entity name="cra31_position1" from="cra31_position1id" to="cra31_positions" link-type="outer">
+      <attribute name="cra31_position1id" />
+      <attribute name="cra31_department" />
+      <attribute name="cra31_station" />
+      <attribute name="cra31_job" />
+      <attribute name="cra31_position" />
+    </link-entity>
+    <link-entity name="cra31_station1" from="cra31_station1id" to="cra31_station" link-type="outer">
+      <attribute name="cra31_station1id" />
+      <attribute name="cra31_station" />
+    </link-entity>
+  </entity>
+</fetch>
