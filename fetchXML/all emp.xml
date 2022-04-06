@@ -71,6 +71,19 @@
   </entity>
 </fetch>
 
+<!-- filter values for department, returns only related department records -->
+<fetch distinct='true'>
+  <entity name='cra31_employee1'>
+    <link-entity name='cra31_department1' to='cra31_department' from='cra31_department1id' alias='d' link-type='inner'>
+      <attribute name='cra31_department' />
+      <attribute name='cra31_department1id' />
+      <order attribute='cra31_department' />
+      <order attribute='cra31_department1id' />
+    </link-entity>
+  </entity>
+</fetch>
+
+
 <!-- filter query for DISTINCT gender values -->
 <fetch distinct='true'>
   <entity name='cra31_employee1'>
@@ -82,7 +95,7 @@
   </entity>
 </fetch>
 
-<!-- query for all employee list with one parameters: @pFullname -->
+<!-- query for all employee list with parameters: @pFullname, @pHiredOnAfter, @pHiredOnBefore -->
 <!-- Add a 'count="5000"' property to the opening fetch tag to bypass the visual studio's 500 preview record limit. -->
 <!-- Set the limit to a number higher than 5000 if needed, however, it is generally not recommended. -->
 <fetch>
@@ -108,6 +121,10 @@
     <attribute name="cra31_age" />
     <filter>
       <condition attribute="cra31_fullname" operator="like" uitype="cra31_fullname" value="@pFullname" />
+    </filter>
+    <filter type="and">
+      <condition attribute="cra31_hire_date" operator="on-or-after" value="@pHiredOnAfter" />
+      <condition attribute="cra31_hire_date" operator="on-or-before" value="@pHiredOnBefore" />
     </filter>
     <link-entity name="cra31_department1" from="cra31_department1id" to="cra31_department" link-type="outer">
       <attribute name="cra31_department" />
@@ -140,5 +157,25 @@
       <attribute name="cra31_station1id" />
       <attribute name="cra31_station" />
     </link-entity>
+  </entity>
+</fetch>
+
+<!-- Get the hire dates for lower and upper boundries for the hired date filter -->
+<fetch aggregate="true">
+  <entity name='cra31_employee1'>
+    <attribute name='cra31_hire_date' alias="HiredOnAfter" aggregate="max" />
+  </entity>
+</fetch>
+
+<!-- filter job based on department and related employee record(s) -->
+<fetch distinct="true">
+  <entity name="cra31_job1">
+    <attribute name="cra31_job" />
+    <attribute name="cra31_job1id" />
+    <filter>
+      <condition entityname="cra31_employee1" attribute="cra31_department" operator="in" value="@pDepartment">
+      </condition>
+    </filter>
+    <link-entity name="cra31_employee1" from="cra31_job" to="cra31_job1id" link-type="inner" />
   </entity>
 </fetch>

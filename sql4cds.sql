@@ -38,3 +38,10 @@ LEFT JOIN cra31_position1 p
     ON e.cra31_positions = p.cra31_position1id
 LEFT JOIN cra31_station1 s
     ON e.cra31_station = s.cra31_station1id;
+
+
+-- Select rows from a Table or View 'cra31_department1'
+select distinct d.cra31_department
+from cra31_department1 d
+inner JOIN cra31_employee1 e
+    ON e.cra31_department = d.cra31_department1id;
