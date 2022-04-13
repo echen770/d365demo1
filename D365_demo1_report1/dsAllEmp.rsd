@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>dsD365_demo1</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@pDepartment">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+        <DataSetParameter Name="@pGender">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:DbType>Object</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>&lt;fetch&gt;
+  &lt;entity name="cra31_employee1"&gt;
+    &lt;attribute name="cra31_last_name" /&gt;
+    &lt;attribute name="cra31_fullname" /&gt;
+    &lt;attribute name="cra31_gender" /&gt;
+    &lt;attribute name="cra31_hire_date" /&gt;
+    &lt;attribute name="cra31_ethnicity" /&gt;
+    &lt;attribute name="cra31_job" /&gt;
+    &lt;attribute name="cra31_positions" /&gt;
+    &lt;attribute name="cra31_email" /&gt;
+    &lt;attribute name="cra31_phone" /&gt;
+    &lt;attribute name="cra31_homecity" /&gt;
+    &lt;attribute name="cra31_first_name" /&gt;
+    &lt;attribute name="cra31_mailcity" /&gt;
+    &lt;attribute name="cra31_employee1id" /&gt;
+    &lt;attribute name="cra31_position" /&gt;
+    &lt;attribute name="cra31_typename" /&gt;
+    &lt;attribute name="cra31_station" /&gt;
+    &lt;attribute name="cra31_department" /&gt;
+    &lt;attribute name="cra31_age" /&gt;
+    &lt;filter&gt;
+      &lt;condition attribute="cra31_department" operator="in" uitype="cra31_department1" value="@pDepartment"&gt;
+      &lt;/condition&gt;
+    &lt;/filter&gt;
+    &lt;filter&gt;
+      &lt;condition attribute="cra31_gender" operator="in" value="@pGender"&gt;
+      &lt;/condition&gt;
+    &lt;/filter&gt;
+    &lt;link-entity name="cra31_department1" from="cra31_department1id" to="cra31_department" link-type="outer"&gt;
+      &lt;attribute name="cra31_department" /&gt;
+      &lt;attribute name="cra31_department1id" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_ethnicity1" from="cra31_ethnicity1id" to="cra31_ethnicity" link-type="outer"&gt;
+      &lt;attribute name="cra31_ethnicity1id" /&gt;
+      &lt;attribute name="cra31_ethnicity" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_city1" from="cra31_city1id" to="cra31_homecity" link-type="outer" alias="HomeCity"&gt;
+      &lt;attribute name="cra31_city1id" /&gt;
+      &lt;attribute name="cra31_city" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_job1" from="cra31_job1id" to="cra31_job" link-type="outer"&gt;
+      &lt;attribute name="cra31_job1id" /&gt;
+      &lt;attribute name="cra31_job" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_city1" from="cra31_city1id" to="cra31_mailcity" link-type="outer" alias="MailCity"&gt;
+      &lt;attribute name="cra31_city1id" /&gt;
+      &lt;attribute name="cra31_city" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_position1" from="cra31_position1id" to="cra31_positions" link-type="outer"&gt;
+      &lt;attribute name="cra31_position1id" /&gt;
+      &lt;attribute name="cra31_department" /&gt;
+      &lt;attribute name="cra31_station" /&gt;
+      &lt;attribute name="cra31_job" /&gt;
+      &lt;attribute name="cra31_position" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_station1" from="cra31_station1id" to="cra31_station" link-type="outer"&gt;
+      &lt;attribute name="cra31_station1id" /&gt;
+      &lt;attribute name="cra31_station" /&gt;
+    &lt;/link-entity&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="cra31_last_name">
+        <DataField>cra31_last_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_fullname">
+        <DataField>cra31_fullname</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_gender">
+        <DataField>cra31_gender</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_hire_date">
+        <DataField>cra31_hire_date</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_hire_dateValue">
+        <DataField>cra31_hire_dateValue</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="cra31_ethnicity">
+        <DataField>cra31_ethnicity</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_ethnicityValue">
+        <DataField>cra31_ethnicityValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_ethnicityEntityName">
+        <DataField>cra31_ethnicityEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_job">
+        <DataField>cra31_job</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_jobValue">
+        <DataField>cra31_jobValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_jobEntityName">
+        <DataField>cra31_jobEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_positions">
+        <DataField>cra31_positions</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_positionsValue">
+        <DataField>cra31_positionsValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_positionsEntityName">
+        <DataField>cra31_positionsEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_email">
+        <DataField>cra31_email</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_phone">
+        <DataField>cra31_phone</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_homecity">
+        <DataField>cra31_homecity</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_homecityValue">
+        <DataField>cra31_homecityValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_homecityEntityName">
+        <DataField>cra31_homecityEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_first_name">
+        <DataField>cra31_first_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_mailcity">
+        <DataField>cra31_mailcity</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_mailcityValue">
+        <DataField>cra31_mailcityValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_mailcityEntityName">
+        <DataField>cra31_mailcityEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_employee1id">
+        <DataField>cra31_employee1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position">
+        <DataField>cra31_position</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_positionValue">
+        <DataField>cra31_positionValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_positionEntityName">
+        <DataField>cra31_positionEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_typename">
+        <DataField>cra31_typename</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_station">
+        <DataField>cra31_station</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_stationValue">
+        <DataField>cra31_stationValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_stationEntityName">
+        <DataField>cra31_stationEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_department">
+        <DataField>cra31_department</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_departmentValue">
+        <DataField>cra31_departmentValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_departmentEntityName">
+        <DataField>cra31_departmentEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_age">
+        <DataField>cra31_age</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_department19dd43aa8_cra31_department">
+        <DataField>cra31_department19dd43aa8_cra31_department</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_department19dd43aa8_cra31_department1id">
+        <DataField>cra31_department19dd43aa8_cra31_department1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_ethnicity12559a20e_cra31_ethnicity1id">
+        <DataField>cra31_ethnicity12559a20e_cra31_ethnicity1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_ethnicity12559a20e_cra31_ethnicity">
+        <DataField>cra31_ethnicity12559a20e_cra31_ethnicity</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="HomeCity_cra31_city1id">
+        <DataField>HomeCity_cra31_city1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="HomeCity_cra31_city">
+        <DataField>HomeCity_cra31_city</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_job13aa97cb9_cra31_job1id">
+        <DataField>cra31_job13aa97cb9_cra31_job1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_job13aa97cb9_cra31_job">
+        <DataField>cra31_job13aa97cb9_cra31_job</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="MailCity_cra31_city1id">
+        <DataField>MailCity_cra31_city1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="MailCity_cra31_city">
+        <DataField>MailCity_cra31_city</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_position1id">
+        <DataField>cra31_position1f0e7f813_cra31_position1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_department">
+        <DataField>cra31_position1f0e7f813_cra31_department</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_departmentValue">
+        <DataField>cra31_position1f0e7f813_cra31_departmentValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_departmentEntityName">
+        <DataField>cra31_position1f0e7f813_cra31_departmentEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_station">
+        <DataField>cra31_position1f0e7f813_cra31_station</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_stationValue">
+        <DataField>cra31_position1f0e7f813_cra31_stationValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_stationEntityName">
+        <DataField>cra31_position1f0e7f813_cra31_stationEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_job">
+        <DataField>cra31_position1f0e7f813_cra31_job</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_jobValue">
+        <DataField>cra31_position1f0e7f813_cra31_jobValue</DataField>
+        <rd:TypeName>System.Guid</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_jobEntityName">
+        <DataField>cra31_position1f0e7f813_cra31_jobEntityName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_position1f0e7f813_cra31_position">
+        <DataField>cra31_position1f0e7f813_cra31_position</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_station1999c36d1_cra31_station1id">
+        <DataField>cra31_station1999c36d1_cra31_station1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_station1999c36d1_cra31_station">
+        <DataField>cra31_station1999c36d1_cra31_station</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

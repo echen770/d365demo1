@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="dsD365_demo1">
+  <ConnectionProperties>
+    <Extension>MSCRMFETCH</Extension>
+    <ConnectString>https://orge5a66ee4.crm.dynamics.com/</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>42c2df8a-2074-4dc1-8162-ba37a442b1ac</DataSourceID>
+</RptDataSource>

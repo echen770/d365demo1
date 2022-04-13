@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>dsD365_demo1</DataSourceReference>
+      <CommandText>&lt;fetch&gt;
+  &lt;entity name="cra31_department1"&gt;
+    &lt;attribute name="cra31_department" distinct="true" /&gt;
+    &lt;attribute name="cra31_department1id" /&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+      <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+    </Query>
+    <Fields>
+      <Field Name="cra31_department">
+        <DataField>cra31_department</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_department1id">
+        <DataField>cra31_department1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

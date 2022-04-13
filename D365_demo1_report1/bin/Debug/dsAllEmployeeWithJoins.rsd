@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Description />
+  <DataSet Name="dsAllEmployeeWithJoins">
+    <Query>
+      <DataSourceReference>dsD365_demo1</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="Department">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>true</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:UserDefined>true</rd:UserDefined>
+        </DataSetParameter>
+        <DataSetParameter Name="Gender">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>true</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:UserDefined>true</rd:UserDefined>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>&lt;fetch xmlns:generator='MarkMpn.SQL4CDS'&gt;
+  &lt;entity name='cra31_employee1'&gt;
+    &lt;attribute name='cra31_employee1id' /&gt;
+    &lt;attribute name='cra31_first_name' /&gt;
+    &lt;attribute name='cra31_last_name' /&gt;
+    &lt;attribute name='cra31_fullname' /&gt;
+    &lt;attribute name='cra31_gender' alias='Gender' /&gt;
+    &lt;attribute name='cra31_email' alias='Email' /&gt;
+    &lt;attribute name='cra31_phone' alias='Phone' /&gt;
+    &lt;attribute name='cra31_hire_date' /&gt;
+    &lt;attribute name='cra31_yearsofservice' /&gt;
+    &lt;link-entity name='cra31_department1' to='cra31_department' from='cra31_department1id' alias='d' link-type='outer'&gt;
+      &lt;attribute name='cra31_department' alias='Department' /&gt;
+      &lt;attribute name='cra31_department1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_ethnicity1' to='cra31_ethnicity' from='cra31_ethnicity1id' alias='eth' link-type='outer'&gt;
+      &lt;attribute name='cra31_ethnicity' alias='Ethnicity' /&gt;
+      &lt;attribute name='cra31_ethnicity1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_city1' to='cra31_homecity' from='cra31_city1id' alias='hc' link-type='outer'&gt;
+      &lt;attribute name='cra31_city' /&gt;
+      &lt;attribute name='cra31_city1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_city1' to='cra31_mailcity' from='cra31_city1id' alias='mc' link-type='outer'&gt;
+      &lt;attribute name='cra31_city' /&gt;
+      &lt;attribute name='cra31_city1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_job1' to='cra31_job' from='cra31_job1id' alias='j' link-type='outer'&gt;
+      &lt;attribute name='cra31_job' alias='Job' /&gt;
+      &lt;attribute name='cra31_job1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_position1' to='cra31_positions' from='cra31_position1id' alias='p' link-type='outer'&gt;
+      &lt;attribute name='cra31_position' alias='Position' /&gt;
+      &lt;attribute name='cra31_position1id' /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name='cra31_station1' to='cra31_station' from='cra31_station1id' alias='s' link-type='outer'&gt;
+      &lt;attribute name='cra31_station' alias='Station' /&gt;
+      &lt;attribute name='cra31_station1id' /&gt;
+    &lt;/link-entity&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+      <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+    </Query>
+    <Fields>
+      <Field Name="cra31_employee1id">
+        <DataField>cra31_employee1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_first_name">
+        <DataField>cra31_first_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_last_name">
+        <DataField>cra31_last_name</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_fullname">
+        <DataField>cra31_fullname</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Gender">
+        <DataField>Gender</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Email">
+        <DataField>Email</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Phone">
+        <DataField>Phone</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_hire_date">
+        <DataField>cra31_hire_date</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_hire_dateValue">
+        <DataField>cra31_hire_dateValue</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="cra31_yearsofservice">
+        <DataField>cra31_yearsofservice</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="cra31_yearsofserviceValue">
+        <DataField>cra31_yearsofserviceValue</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Department">
+        <DataField>Department</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Ethnicity">
+        <DataField>Ethnicity</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="d_cra31_department1id">
+        <DataField>d_cra31_department1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="hc_cra31_city">
+        <DataField>hc_cra31_city</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="eth_cra31_ethnicity1id">
+        <DataField>eth_cra31_ethnicity1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="mc_cra31_city">
+        <DataField>mc_cra31_city</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Job">
+        <DataField>Job</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="hc_cra31_city1id">
+        <DataField>hc_cra31_city1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Position">
+        <DataField>Position</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Station">
+        <DataField>Station</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="mc_cra31_city1id">
+        <DataField>mc_cra31_city1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="j_cra31_job1id">
+        <DataField>j_cra31_job1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="p_cra31_position1id">
+        <DataField>p_cra31_position1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="s_cra31_station1id">
+        <DataField>s_cra31_station1id</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+    </Fields>
+    <Filters>
+      <Filter>
+        <FilterExpression>=Fields!d_cra31_department1id.Value</FilterExpression>
+        <Operator>In</Operator>
+        <FilterValues>
+          <FilterValue>=Parameters!pDept.Value</FilterValue>
+        </FilterValues>
+      </Filter>
+      <Filter>
+        <FilterExpression>=Fields!Gender.Value</FilterExpression>
+        <Operator>In</Operator>
+        <FilterValues>
+          <FilterValue>=Parameters!pGender.Value</FilterValue>
+        </FilterValues>
+      </Filter>
+    </Filters>
+  </DataSet>
+</SharedDataSet>

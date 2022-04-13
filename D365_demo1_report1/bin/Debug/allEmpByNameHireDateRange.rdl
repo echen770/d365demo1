@@ -1,0 +1,1764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="dsD365DemoRpt1">
+      <ConnectionProperties>
+        <DataProvider>MSCRMFETCH</DataProvider>
+        <ConnectString>https://orge5a66ee4.crm.dynamics.com/</ConnectString>
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>916dbf14-86c2-4f6e-9a57-ebc945837079</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DSetEmpAll">
+      <Query>
+        <DataSourceName>dsD365DemoRpt1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@pFullname">
+            <Value>="%"+Parameters!pFullname.Value+"%"</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pHiredOnAfter">
+            <Value>=Parameters!pHiredOnAfter.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@pHiredOnBefore">
+            <Value>=Parameters!pHiredOnBefore.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>&lt;fetch&gt;
+  &lt;entity name="cra31_employee1"&gt;
+    &lt;attribute name="cra31_last_name" /&gt;
+    &lt;attribute name="cra31_fullname" /&gt;
+    &lt;attribute name="cra31_gender" /&gt;
+    &lt;attribute name="cra31_hire_date" /&gt;
+    &lt;attribute name='cra31_yearsofservice' /&gt;
+    &lt;attribute name="cra31_ethnicity" /&gt;
+    &lt;attribute name="cra31_job" /&gt;
+    &lt;attribute name="cra31_positions" /&gt;
+    &lt;attribute name="cra31_email" /&gt;
+    &lt;attribute name="cra31_phone" /&gt;
+    &lt;attribute name="cra31_homecity" /&gt;
+    &lt;attribute name="cra31_first_name" /&gt;
+    &lt;attribute name="cra31_mailcity" /&gt;
+    &lt;attribute name="cra31_employee1id" /&gt;
+    &lt;attribute name="cra31_position" /&gt;
+    &lt;attribute name="cra31_typename" /&gt;
+    &lt;attribute name="cra31_station" /&gt;
+    &lt;attribute name="cra31_department" /&gt;
+    &lt;attribute name="cra31_age" /&gt;
+    &lt;filter&gt;
+      &lt;condition attribute="cra31_fullname" operator="like" uitype="cra31_fullname" value="@pFullname" /&gt;
+    &lt;/filter&gt;
+    &lt;filter type="and"&gt;
+      &lt;condition attribute="cra31_hire_date" operator="on-or-after" value="@pHiredOnAfter" /&gt;
+      &lt;condition attribute="cra31_hire_date" operator="on-or-before" value="@pHiredOnBefore" /&gt;
+    &lt;/filter&gt;
+    &lt;link-entity name="cra31_department1" from="cra31_department1id" to="cra31_department" link-type="outer"&gt;
+      &lt;attribute name="cra31_department" /&gt;
+      &lt;attribute name="cra31_department1id" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_ethnicity1" from="cra31_ethnicity1id" to="cra31_ethnicity" link-type="outer"&gt;
+      &lt;attribute name="cra31_ethnicity1id" /&gt;
+      &lt;attribute name="cra31_ethnicity" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_city1" from="cra31_city1id" to="cra31_homecity" link-type="outer" alias="HomeCity"&gt;
+      &lt;attribute name="cra31_city1id" /&gt;
+      &lt;attribute name="cra31_city" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_job1" from="cra31_job1id" to="cra31_job" link-type="outer"&gt;
+      &lt;attribute name="cra31_job1id" /&gt;
+      &lt;attribute name="cra31_job" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_city1" from="cra31_city1id" to="cra31_mailcity" link-type="outer" alias="MailCity"&gt;
+      &lt;attribute name="cra31_city1id" /&gt;
+      &lt;attribute name="cra31_city" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_position1" from="cra31_position1id" to="cra31_positions" link-type="outer"&gt;
+      &lt;attribute name="cra31_position1id" /&gt;
+      &lt;attribute name="cra31_department" /&gt;
+      &lt;attribute name="cra31_station" /&gt;
+      &lt;attribute name="cra31_job" /&gt;
+      &lt;attribute name="cra31_position" /&gt;
+    &lt;/link-entity&gt;
+    &lt;link-entity name="cra31_station1" from="cra31_station1id" to="cra31_station" link-type="outer"&gt;
+      &lt;attribute name="cra31_station1id" /&gt;
+      &lt;attribute name="cra31_station" /&gt;
+    &lt;/link-entity&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="cra31_last_name">
+          <DataField>cra31_last_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_fullname">
+          <DataField>cra31_fullname</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_gender">
+          <DataField>cra31_gender</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_hire_date">
+          <DataField>cra31_hire_date</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_hire_dateValue">
+          <DataField>cra31_hire_dateValue</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="cra31_yearsofservice">
+          <DataField>cra31_yearsofservice</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_ethnicity">
+          <DataField>cra31_ethnicity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_yearsofserviceValue">
+          <DataField>cra31_yearsofserviceValue</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="cra31_ethnicityValue">
+          <DataField>cra31_ethnicityValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_ethnicityEntityName">
+          <DataField>cra31_ethnicityEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_job">
+          <DataField>cra31_job</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_jobValue">
+          <DataField>cra31_jobValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_jobEntityName">
+          <DataField>cra31_jobEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_positions">
+          <DataField>cra31_positions</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_positionsValue">
+          <DataField>cra31_positionsValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_positionsEntityName">
+          <DataField>cra31_positionsEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_email">
+          <DataField>cra31_email</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_phone">
+          <DataField>cra31_phone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_homecity">
+          <DataField>cra31_homecity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_homecityValue">
+          <DataField>cra31_homecityValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_homecityEntityName">
+          <DataField>cra31_homecityEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_first_name">
+          <DataField>cra31_first_name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_mailcity">
+          <DataField>cra31_mailcity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_mailcityValue">
+          <DataField>cra31_mailcityValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_mailcityEntityName">
+          <DataField>cra31_mailcityEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_employee1id">
+          <DataField>cra31_employee1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position">
+          <DataField>cra31_position</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_positionValue">
+          <DataField>cra31_positionValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_positionEntityName">
+          <DataField>cra31_positionEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_typename">
+          <DataField>cra31_typename</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_station">
+          <DataField>cra31_station</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_stationValue">
+          <DataField>cra31_stationValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_stationEntityName">
+          <DataField>cra31_stationEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_department">
+          <DataField>cra31_department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_departmentValue">
+          <DataField>cra31_departmentValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_departmentEntityName">
+          <DataField>cra31_departmentEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_age">
+          <DataField>cra31_age</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_department1def5631f_cra31_department">
+          <DataField>cra31_department1def5631f_cra31_department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_department1def5631f_cra31_department1id">
+          <DataField>cra31_department1def5631f_cra31_department1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_ethnicity171d52c3f_cra31_ethnicity1id">
+          <DataField>cra31_ethnicity171d52c3f_cra31_ethnicity1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_ethnicity171d52c3f_cra31_ethnicity">
+          <DataField>cra31_ethnicity171d52c3f_cra31_ethnicity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HomeCity_cra31_city1id">
+          <DataField>HomeCity_cra31_city1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="HomeCity_cra31_city">
+          <DataField>HomeCity_cra31_city</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_job1c3e1e1a4_cra31_job1id">
+          <DataField>cra31_job1c3e1e1a4_cra31_job1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_job1c3e1e1a4_cra31_job">
+          <DataField>cra31_job1c3e1e1a4_cra31_job</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MailCity_cra31_city1id">
+          <DataField>MailCity_cra31_city1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MailCity_cra31_city">
+          <DataField>MailCity_cra31_city</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_position1id">
+          <DataField>cra31_position19965b11b_cra31_position1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_department">
+          <DataField>cra31_position19965b11b_cra31_department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_departmentValue">
+          <DataField>cra31_position19965b11b_cra31_departmentValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_departmentEntityName">
+          <DataField>cra31_position19965b11b_cra31_departmentEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_station">
+          <DataField>cra31_position19965b11b_cra31_station</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_stationValue">
+          <DataField>cra31_position19965b11b_cra31_stationValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_stationEntityName">
+          <DataField>cra31_position19965b11b_cra31_stationEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_job">
+          <DataField>cra31_position19965b11b_cra31_job</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_jobValue">
+          <DataField>cra31_position19965b11b_cra31_jobValue</DataField>
+          <rd:TypeName>System.Guid</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_jobEntityName">
+          <DataField>cra31_position19965b11b_cra31_jobEntityName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_position19965b11b_cra31_position">
+          <DataField>cra31_position19965b11b_cra31_position</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_station17a4217cc_cra31_station1id">
+          <DataField>cra31_station17a4217cc_cra31_station1id</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="cra31_station17a4217cc_cra31_station">
+          <DataField>cra31_station17a4217cc_cra31_station</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DSet_HireDateOnAfter">
+      <Query>
+        <DataSourceName>dsD365DemoRpt1</DataSourceName>
+        <CommandText>&lt;fetch aggregate="true"&gt;
+  &lt;entity name="cra31_employee1"&gt;
+    &lt;attribute name="cra31_hire_date" alias="OnAfter" aggregate="min" /&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="OnAfter">
+          <DataField>OnAfter</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OnAfterValue">
+          <DataField>OnAfterValue</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DSet_HireDateOnBefore">
+      <Query>
+        <DataSourceName>dsD365DemoRpt1</DataSourceName>
+        <CommandText>&lt;fetch aggregate="true"&gt;
+  &lt;entity name="cra31_employee1"&gt;
+    &lt;attribute name="cra31_hire_date" alias="OnBefore" aggregate="max" /&gt;
+  &lt;/entity&gt;
+&lt;/fetch&gt;</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="OnBefore">
+          <DataField>OnBefore</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OnBeforeValue">
+          <DataField>OnBeforeValue</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix3">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.17708in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.82292in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.47917in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.45833in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_department">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_department.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_department</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>SlateBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_fullname1">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_fullname.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Full Name</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_fullname1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox68">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_gender.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Gender</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox68</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox69">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_ethnicity.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Ethnicity</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox69</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox70">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_job.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Job</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox70</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox72">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_hire_date.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Hire Date</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox72</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox73">
+                          <CanGrow>true</CanGrow>
+                          <UserSort>
+                            <SortExpression>=Fields!cra31_yearsofservice.Value</SortExpression>
+                          </UserSort>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Years of Service</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox73</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox87">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox87</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_fullname">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_fullname.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_fullname</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_gender">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_gender.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_gender</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_ethnicity">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_ethnicity.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_ethnicity</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_job">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_job.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_job</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_hire_date">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_hire_date.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_hire_date</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="cra31_yearsofserviceValue">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!cra31_yearsofserviceValue.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>cra31_yearsofserviceValue</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox88">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="Average Years of Service: "+FormatNumber(Avg(CInt(Fields!cra31_yearsofservice.Value)),2)</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox88</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>Aqua</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>7</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox89">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox89</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>7</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="cra31_department">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!cra31_department.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!cra31_department.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixMembers>
+                    <TablixMember>
+                      <KeepWithGroup>After</KeepWithGroup>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="Details" />
+                    </TablixMember>
+                    <TablixMember>
+                      <KeepWithGroup>Before</KeepWithGroup>
+                    </TablixMember>
+                    <TablixMember>
+                      <KeepWithGroup>Before</KeepWithGroup>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <RepeatColumnHeaders>true</RepeatColumnHeaders>
+            <FixedColumnHeaders>true</FixedColumnHeaders>
+            <KeepTogether>true</KeepTogether>
+            <DataSetName>DSetEmpAll</DataSetName>
+            <Top>3.19792in</Top>
+            <Left>0in</Left>
+            <Height>1in</Height>
+            <Width>10.9375in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Chart Name="Chart2">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="Chart2_CategoryGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=CStr(Year(Fields!cra31_hire_date.Value))</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <Label>=Year(Fields!cra31_hire_date.Value)</Label>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!cra31_hire_date.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="Chart2_SeriesGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!cra31_gender.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <Label>=Fields!cra31_gender.Value</Label>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!cra31_gender.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="cra31_gender">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Count(Fields!cra31_gender.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style />
+                      </ChartDataLabel>
+                      <Style />
+                      <ChartMarker>
+                        <Style />
+                      </ChartMarker>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Subtype>Stacked</Subtype>
+                  <Style />
+                  <ChartEmptyPoints>
+                    <Style />
+                    <ChartMarker>
+                      <Style />
+                    </ChartMarker>
+                    <ChartDataLabel>
+                      <Style />
+                    </ChartDataLabel>
+                  </ChartEmptyPoints>
+                  <ValueAxisName>Primary</ValueAxisName>
+                  <CategoryAxisName>Primary</CategoryAxisName>
+                  <ChartSmartLabel>
+                    <CalloutLineColor>Black</CalloutLineColor>
+                    <MinMovingDistance>0pt</MinMovingDistance>
+                  </ChartSmartLabel>
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartValueAxes>
+                <Style>
+                  <BackgroundColor>#00ffffff</BackgroundColor>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                </Style>
+              </ChartArea>
+            </ChartAreas>
+            <ChartLegends>
+              <ChartLegend Name="Default">
+                <Style>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <Position>TopLeft</Position>
+                <ChartLegendTitle>
+                  <Caption />
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </ChartLegendTitle>
+                <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+                <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+              </ChartLegend>
+            </ChartLegends>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>Gender Count by Hire Year</Caption>
+                <Style>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>9pt</FontSize>
+                  <FontWeight>Normal</FontWeight>
+                  <TextAlign>Left</TextAlign>
+                  <VerticalAlign>Top</VerticalAlign>
+                  <Color>#a6a6a6</Color>
+                </Style>
+                <Position>TopLeft</Position>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>Pacific</Palette>
+            <ChartBorderSkin>
+              <Style>
+                <BackgroundColor>Gray</BackgroundColor>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <Color>White</Color>
+              </Style>
+            </ChartBorderSkin>
+            <ChartNoDataMessage Name="NoDataMessage">
+              <Caption>No Data Available</Caption>
+              <Style>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <FontWeight>Bold</FontWeight>
+                <TextAlign>General</TextAlign>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+            </ChartNoDataMessage>
+            <DataSetName>DSetEmpAll</DataSetName>
+            <Top>0.04167in</Top>
+            <Left>0in</Left>
+            <Height>3.15625in</Height>
+            <Width>10.9375in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Color>LightGrey</Color>
+                <Style>None</Style>
+              </Border>
+              <BackgroundColor>White</BackgroundColor>
+              <BackgroundGradientType>None</BackgroundGradientType>
+            </Style>
+          </Chart>
+        </ReportItems>
+        <Height>4.19792in</Height>
+        <Style />
+      </Body>
+      <Width>10.9375in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.5in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Image Name="logo">
+              <Source>Embedded</Source>
+              <Value>OIP</Value>
+              <Sizing>FitProportional</Sizing>
+              <Height>0.5in</Height>
+              <Width>0.5in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
+            <Textbox Name="Textbox103">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>All Employee List</Value>
+                      <Style>
+                        <FontSize>18pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox103</rd:DefaultName>
+              <Left>0.5in</Left>
+              <Height>0.5in</Height>
+              <Width>9.78819in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>White</BackgroundColor>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>1in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox104">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Printed by " + User!UserID</Value>
+                      <Style>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox104</rd:DefaultName>
+              <Top>0.11458in</Top>
+              <Height>0.23958in</Height>
+              <Width>3.69792in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox105">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Report Date: " + FormatDateTime(Now,DateFormat.LongDate)</Value>
+                      <Style>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox104</rd:DefaultName>
+              <Top>0.36806in</Top>
+              <Left>0in</Left>
+              <Height>0.23958in</Height>
+              <Width>3.69791in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox106">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>="Copyright " + CStr(Year(Now)) + " Demo1 Solutions"</Value>
+                      <Style>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox104</rd:DefaultName>
+              <Top>0.11458in</Top>
+              <Left>3.88542in</Left>
+              <Height>0.45139in</Height>
+              <Width>3.53125in</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox107">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>= "Page " + CStr(Globals!OverallPageNumber) + " of " + CStr(Globals!OverallTotalPages)</Value>
+                      <Style>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox104</rd:DefaultName>
+              <Top>0.11459in</Top>
+              <Left>7.82291in</Left>
+              <Height>0.23958in</Height>
+              <Width>3.11459in</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox108">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>= "Total Record Count: "+FormatNumber(CountRows("DSetEmpAll"),0)</Value>
+                      <Style>
+                        <Color>DimGray</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox104</rd:DefaultName>
+              <Top>0.35417in</Top>
+              <Left>7.82291in</Left>
+              <Height>0.23958in</Height>
+              <Width>3.11459in</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="pFullname">
+      <DataType>String</DataType>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Employee Name</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pDefaultStartDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DSet_HireDateOnAfter</DataSetName>
+          <ValueField>OnAfter</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="pDefaultEndDate">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>DSet_HireDateOnBefore</DataSetName>
+          <ValueField>OnBefore</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+    <ReportParameter Name="pHiredOnAfter">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Parameters!pDefaultStartDate.Value)</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Hired date start</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="pHiredOnBefore">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=CDate(Parameters!pDefaultEndDate.Value)</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Hired date end:</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>5</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>pFullname</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>pDefaultStartDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>pDefaultEndDate</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>3</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>pHiredOnAfter</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>4</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>pHiredOnBefore</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="OIP">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>9b4a7f2a-d9eb-483f-85e2-3b274bee20ae</rd:ReportID>
+</Report>

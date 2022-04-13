@@ -29,7 +29,6 @@ demo1.validation = {
   infoMsgDelay: 5000,
 
   fieldValidation: function (executionContext, displayName, logicalName) {
-    //debugger;
     try {
       let formContext = executionContext.getFormContext(); // get formContext
       let atrToBeValidated = formContext.getAttribute(logicalName);
@@ -42,12 +41,7 @@ demo1.validation = {
           if (displayName.toLowerCase().includes(field.fieldKey)) {
             // Match validation object to field display name
             // Display the results of the validation
-            if (
-              demo1.validation.validateParttern(
-                atrToBeValidated.getValue(),
-                field.pattern
-              )
-            ) {
+            if (demo1.validation.validateParttern(atrToBeValidated.getValue(), field.pattern)) {
               field.isValid = true;
               fieldControl.clearNotification(logicalName);
             } else {
@@ -63,7 +57,6 @@ demo1.validation = {
   },
 
   saveForm: function (executionContext) {
-    // debugger;
     try {
       let formContext = executionContext.getFormContext(); // get formContext
       let isValid = true;
@@ -118,7 +111,6 @@ demo1.WebApiOps = {
     lookupTableName,
     lookupLogicalName
   ) {
-    debugger;
     try {
       let formContext = executionContext.getFormContext(); // get formContext
       let targetID = formContext.data.entity.getId(); // get the id of the current record
@@ -140,7 +132,7 @@ demo1.WebApiOps = {
             },
             function (error) {
               // handle error conditions
-              console.log(error.message);
+              demo1.misc.displayExceptionInfo(error);
             }
           )
           .then(function (targetAttribute) {
@@ -149,15 +141,13 @@ demo1.WebApiOps = {
             // construct the data payload for the web api update using variables
             let data = {};
             let propertyName = lookupLogicalName + "@odata.bind";
-            let propertyValue =
-              "/" + updateTableName + "s(" + targetAttribute + ")";
+            let propertyValue = "/" + updateTableName + "s(" + targetAttribute + ")";
             data[propertyName] = propertyValue;
 
             // update the record
             Xrm.WebApi.updateRecord(updateTableName, targetID, data).then(
               function success(result) {
                 // refreshs the form to reflect the updated data
-                debugger;
                 formContext.data.refresh(true);
               },
               function (error) {
@@ -166,6 +156,8 @@ demo1.WebApiOps = {
               }
             );
           });
+      } else {
+        formContext.getAttribute(lookupLogicalName).setValue(null);
       }
     } catch (e) {
       demo1.misc.displayExceptionInfo(e);
@@ -174,13 +166,7 @@ demo1.WebApiOps = {
 };
 
 demo1.ui = {
-  toggleAssignment: function (
-    executionContext,
-    updateLogicalName,
-    tabLogicalName,
-    toggleLogicalName
-  ) {
-    debugger;
+  toggleAssignment: function (executionContext, updateLogicalName, tabLogicalName, toggleLogicalName) {
     try {
       let formContext = executionContext.getFormContext(); // get formContext
       // Get the attribute from the updated control
@@ -200,11 +186,116 @@ demo1.misc = {
   displayExceptionInfo: function (e) {
     // display the error message
     let alertStrings = {
-      confirmButtonLabel: "Yes, yes, I know, honey. Now SHUT UP!!!",
+      confirmButtonLabel: "PEACE!",
       text: e.stack,
       title: "Exception: " + e.message,
     };
     let alertOptions = { height: 800, width: 1200 };
     Xrm.Navigation.openAlertDialog(alertStrings, alertOptions);
+  },
+
+  test: function (msg) {
+    XMLDocument.Navigation.openAlertDialog(msg);
+  },
+
+  callFlow: function (flowName, recordGuid, formContext) {
+    try {
+      let employeeName = formContext.getAttribute("cra31_fullname").getValue();
+
+      let flowUrl =
+        "https://prod-131.westus.logic.azure.com:443/workflows/a920abddd40a43e6a788c5b57a06f5ac/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=A8A-Jb3y8rAqDn8meARKPym8V3q540C0M5U6UkfHMa4";
+      let input = JSON.stringify({
+        recordID: recordGuid.replace("{", "").replace("}", ""),
+        flowName: flowName,
+      });
+
+      let req = new XMLHttpRequest();
+      req.open("POST", flowUrl, true);
+      req.setRequestHeader("Content-Type", "application/json");
+      req.send(input);
+
+      Xrm.Navigation.openAlertDialog("The " + flowName + " Flow is grinding away for " + employeeName);
+      // Xrm.Navigation.openAlertDialog("The run custom flow button is clicked.");
+    } catch (e) {
+      demo1.misc.displayExceptionInfo(e);
+    }
+  },
+};
+
+demo1.maintenance = {
+  /**
+   * @function getCustomTableList
+   * @description Get a list of custom tables for the current organization.
+   * @param {string} schemaPrefix - The schema prefix for the current organization.
+   * @param {string} fkTblName - The logical name of the table containing the foreign key value(s).
+   * @param {string} exclusionString - A comma separated list of excluded column names.
+   */
+  getCustomTableList: function (schemaPrefix, fkTblName, exclusionString) {
+    try {
+      const urlSuffix = "/api/data/v9.2/";
+      const columnPrefix = "_" + schemaPrefix;
+      const columnSuffix = "_value";
+      let globalContext = Xrm.Utility.getGlobalContext();
+      let requestUrl = globalContext.getClientUrl() + urlSuffix;
+      let customTableList = [];
+      let fkColumnList = [];
+      let exclusions = exclusionString.slice(1, -1).split(",");
+
+      // fetch api
+      fetch(requestUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          let tblList = data.value; // getting the arravy of entitySets in the organization
+          // loop through the list of tables to find the one starts with the prefix
+          tblList.forEach((tbl) => {
+            let tblName = tbl.name;
+            if (tblName.startsWith(schemaPrefix)) {
+              // debugger;
+            }
+            let excluded = false;
+            exclusions.forEach((excl) => {
+              excluded = excluded || tblName.toLowerCase().includes(excl);
+            });
+            if (tblName.startsWith(schemaPrefix) && !excluded) {
+              customTableList.push({
+                name: tblName.substring(0, tblName.length - 1),
+                column: "",
+              });
+            }
+          });
+        })
+        .then(() => {
+          let fkTblRequestUrl = requestUrl + fkTblName + "s/";
+          fetch(encodeURI(fkTblRequestUrl))
+            .then((response) => response.json())
+            .then((data) => {
+              let columnList = data.value[0];
+              let columnName = "";
+              let tableIndex = 0;
+              let excluded = false;
+
+              for (const key in columnList) {
+                columnName = key.substring(1, key.length - 6);
+                tableIndex = customTableList.findIndex((ct, index) => {
+                  if (ct.name.toLowerCase().includes(columnName)) return true;
+                });
+                exclusions.forEach((excl) => {
+                  excluded = excluded || key.toLowerCase().includes(excl);
+                });
+                if (key.startsWith(columnPrefix) && key.endsWith(columnSuffix) && !excluded && tableIndex != -1) {
+                  customTableList[tableIndex].column = columnName;
+                }
+              }
+            });
+        })
+        .then(demo1.maintenance.getFkTableColumnList(customTableList, fkTblName, fkColumnList))
+        .catch((e) => demo1.misc.displayExceptionInfo(e));
+    } catch (e) {
+      demo1.misc.displayExceptionInfo(e);
+    }
+  },
+
+  getFkTableColumnList: (customTableList, fkTblName, fkColumnList) => {
+    console.log(customTableList);
   },
 };
