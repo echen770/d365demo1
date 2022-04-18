@@ -309,7 +309,7 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
     let exclusions = exclusionString.slice(1, -1).split(",");
     exclusions.push(fkTblName.slice(schemaPrefix.length, -1));
 
-    // fetch api
+    // Use the fetch api to get a list of custom lookup tables based on pubisher prefix, and store the list in customTableList
     let response = await fetch(encodeURI(requestUrl));
     if (response.ok) {
       let data1 = await response.json();
@@ -333,6 +333,7 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
       demo1.misc.outputResponsetoConsole(response);
     }
 
+    // get the corresponding column names in the main table according to the list of lookup tables
     let fkTblRequestUrl = requestUrl + fkTblName + tableUrlSuffix;
     let res = await fetch(encodeURI(fkTblRequestUrl));
     if (res.ok) {
@@ -356,10 +357,10 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
       demo1.misc.outputResponsetoConsole(res);
     }
 
+    // get a list of all the PK GUIDs from the main table through the fetch api
     let fkTable = [];
     let fetchFkTableUrl = requestUrl + fkTblName + tableUrlSuffix + odataSelect + fkTblName + odataSelectIdSuffix;
     let res4 = await fetch(encodeURI(fetchFkTableUrl));
-
     if (!res4.ok) {
       demo1.misc.outputResponsetoConsole(res4);
     } else {
@@ -369,6 +370,9 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
 
     console.log(customTableList);
 
+    // have to use regular for loops below, because foreach loop cannot be used with async/await
+
+    // iterate through lookup table list and get all the lookup GUIDs for each, and store them in the customTableList object
     for (let i = 0; i < customTableList.length; i++) {
       const lookupTable = customTableList[i];
       if (lookupTable.column != "") {
@@ -380,17 +384,23 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
         } else {
           let data3 = await res3.json();
           lookupTable.value = await data3.value;
+
+          // iterate through the records in the main table and use the pk and radomized fk to build a update/associate request object
           for (let index = 0; index < fkTable.length; index++) {
             const fkRecord = fkTable[index];
             let fkrecordId = fkRecord[fkTblName + odataSelectIdSuffix];
             let maxIndex = lookupTable.value.length;
             let randomIndex = Math.floor(Math.random() * maxIndex);
             let realtedAttribute = lookupTable.value[randomIndex][lookupTable.name + odataSelectIdSuffix];
+
+            // build the data payload for the request object
             let payload = demo1.WebApiOps.createUpdatePayloadFKTable(
               lookupTable.column,
               lookupTable.name,
               realtedAttribute
             );
+
+            //add the request object to the change set
             let request = new demo1.WebApiOps.updateRequest(fkTblName, fkrecordId, payload);
             changeSetRequest.push(request);
           }
@@ -398,14 +408,16 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
       }
     }
 
-    // debugger;
+    // the Web API limits the change set to 1000 requests
+    // the following will break up the change set into an array with each element contains a max of 1000 request objects
     requestSets = demo1.misc.breakupChangeSet(changeSetRequest);
-    console.log(requestSets);
+    console.log(requestSets); // for debugging
 
+    // executing the Web API request, 1000 at a time using Xrm.WebApi.online.executeMultiple()
     for (let index = 0; index < requestSets.length; index++) {
       const rs = requestSets[index];
       let response = await Xrm.WebApi.online.executeMultiple(rs);
-      console.log(response);
+      console.log(response); // output an response array of each change set to the console
     }
   } catch (e) {
     demo1.misc.displayExceptionInfo(e);
