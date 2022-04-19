@@ -49,7 +49,7 @@ demo1.misc.outputResponsetoConsole = function (response) {
   console.log("Status: %s %s", response.status, response.statusText, "url: ", response.url);
 };
 
-demo1.misc.breakupChangeSet = function (changeSet) {
+demo1.misc.prepareChangeSet = function (changeSet) {
   const maxRequestsSize = 1000;
   let changeSetArray = [];
   let CSASize = Math.ceil(changeSet.length / maxRequestsSize);
@@ -148,7 +148,7 @@ demo1.validation.validateParttern = function (str, pattern) {
   return str.match(pattern);
 };
 
-demo1.WebApiOps.createUpdateDataPayload = function (lookupLogicalName, updateTableName, relatedAttribute) {
+demo1.WebApiOps.createUpdateDataPayload = function (lookupLogicalName, lookupTableName, relatedAttribute) {
   // define the data to update a record in the following format:
   // var data =
   // {
@@ -156,7 +156,7 @@ demo1.WebApiOps.createUpdateDataPayload = function (lookupLogicalName, updateTab
   // }
   let data = {};
   let propertyName = lookupLogicalName + "@odata.bind";
-  let propertyValue = "/" + updateTableName + "s(" + relatedAttribute + ")";
+  let propertyValue = "/" + lookupTableName + "s(" + relatedAttribute + ")";
   data[propertyName] = propertyValue;
   return data;
 };
@@ -164,14 +164,17 @@ demo1.WebApiOps.createUpdateDataPayload = function (lookupLogicalName, updateTab
 // for populating fk fields only
 demo1.WebApiOps.createUpdatePayloadFKTable = function (lookupLogicalName, updateTableName, relatedAttribute) {
   // The Web API query returns all column names in lower case.
-  // However, Dynamics defaults the first character after the publisher prefix to upper case.
-  // See the fix below:
+  // However, if the first character after the publisher prefix is upper case, below is the fix.
   let columnNameCapFixIndex = 6;
   lookupLogicalName =
     lookupLogicalName.slice(0, columnNameCapFixIndex) +
     lookupLogicalName.charAt(columnNameCapFixIndex).toUpperCase() +
     lookupLogicalName.slice(columnNameCapFixIndex + 1);
 
+  // cra31_ethnicity fix, sight...
+  if (lookupLogicalName == "cra31_Ethnicity") {
+    lookupLogicalName = "cra31_ethnicity";
+  }
   // define the data to update a record in the following format:
   // var data =
   // {
@@ -358,18 +361,11 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
     }
 
     // get a list of all the PK GUIDs from the main table through the fetch api
-    let fkTable = [];
     let fetchFkTableUrl = requestUrl + fkTblName + tableUrlSuffix + odataSelect + fkTblName + odataSelectIdSuffix;
-    let res4 = await fetch(encodeURI(fetchFkTableUrl));
-    if (!res4.ok) {
-      demo1.misc.outputResponsetoConsole(res4);
-    } else {
-      let data4 = await res4.json();
-      fkTable = data4.value;
-    }
+    let fkTable = await demo1.misc.getTable(fetchFkTableUrl);
 
-    console.log(customTableList);
-
+    console.log(fkTable); // for debugging
+    debugger;
     // have to use regular for loops below, because foreach loop cannot be used with async/await
 
     // iterate through lookup table list and get all the lookup GUIDs for each, and store them in the customTableList object
@@ -378,47 +374,124 @@ demo1.maintenance.getCustomTableList = async function (schemaPrefix, fkTblName, 
       if (lookupTable.column != "") {
         let idColumnName = lookupTable.name + odataSelectIdSuffix;
         let fetchLkptblUrl = requestUrl + lookupTable.name + tableUrlSuffix + odataSelect + idColumnName;
-        let res3 = await fetch(encodeURI(fetchLkptblUrl));
-        if (!res3.ok) {
-          demo1.misc.outputResponsetoConsole(res3);
-        } else {
-          let data3 = await res3.json();
-          lookupTable.value = await data3.value;
+        lookupTable.value = await demo1.misc.getTable(fetchLkptblUrl);
+        // iterate through the records in the main table and use the pk and radomized fk to build a update/associate request object
+        for (let index = 0; index < fkTable.length; index++) {
+          const fkRecord = fkTable[index];
+          let fkrecordId = fkRecord[fkTblName + odataSelectIdSuffix];
+          let maxIndex = lookupTable.value.length;
+          let randomIndex = Math.floor(Math.random() * maxIndex);
+          let realtedAttribute = lookupTable.value[randomIndex][lookupTable.name + odataSelectIdSuffix];
 
-          // iterate through the records in the main table and use the pk and radomized fk to build a update/associate request object
-          for (let index = 0; index < fkTable.length; index++) {
-            const fkRecord = fkTable[index];
-            let fkrecordId = fkRecord[fkTblName + odataSelectIdSuffix];
-            let maxIndex = lookupTable.value.length;
-            let randomIndex = Math.floor(Math.random() * maxIndex);
-            let realtedAttribute = lookupTable.value[randomIndex][lookupTable.name + odataSelectIdSuffix];
+          // build the data payload for the request object
+          let payload = demo1.WebApiOps.createUpdatePayloadFKTable(
+            lookupTable.column,
+            lookupTable.name,
+            realtedAttribute
+          );
 
-            // build the data payload for the request object
-            let payload = demo1.WebApiOps.createUpdatePayloadFKTable(
-              lookupTable.column,
-              lookupTable.name,
-              realtedAttribute
-            );
-
-            //add the request object to the change set
-            let request = new demo1.WebApiOps.updateRequest(fkTblName, fkrecordId, payload);
-            changeSetRequest.push(request);
-          }
+          //add the request object to the change set
+          let request = new demo1.WebApiOps.updateRequest(fkTblName, fkrecordId, payload);
+          changeSetRequest.push(request);
         }
       }
     }
 
     // the Web API limits the change set to 1000 requests
     // the following will break up the change set into an array with each element contains a max of 1000 request objects
-    requestSets = demo1.misc.breakupChangeSet(changeSetRequest);
+    requestSets = demo1.misc.prepareChangeSet(changeSetRequest);
     console.log(requestSets); // for debugging
 
     // executing the Web API request, 1000 at a time using Xrm.WebApi.online.executeMultiple()
-    for (let index = 0; index < requestSets.length; index++) {
-      const rs = requestSets[index];
-      let response = await Xrm.WebApi.online.executeMultiple(rs);
-      console.log(response); // output an response array of each change set to the console
+    let res1 = await demo1.misc.associateRecords(requestSets);
+    // demo1.misc.outputResponsetoConsole(res1);
+  } catch (e) {
+    demo1.misc.displayExceptionInfo(e);
+  }
+};
+
+demo1.misc.getTable = async function (requestUrl) {
+  let res = await fetch(encodeURI(requestUrl));
+  if (!res.ok) {
+    demo1.misc.outputResponsetoConsole(res);
+  } else {
+    let data = await res.json();
+    return data.value;
+  }
+};
+
+demo1.misc.associateRecords = async function (changeSets) {
+  for (let index = 0; index < changeSets.length; index++) {
+    const rs = changeSets[index];
+    return await Xrm.WebApi.online.executeMultiple(rs);
+  }
+};
+
+demo1.WebApiOps.setLookup = async function (fkTblName, lookupTable, targetTable) {
+  const urlSuffix = "/api/data/v9.2/";
+  const tableUrlSuffix = "s/";
+  const lUptableUrlSuffix = "1";
+  const odataSelect = "?$select=";
+  const odataSelectIdSuffix = "id";
+  const columnPrefix = "_";
+  const columnSuffix = "_value";
+  let targetTableName = targetTable + lUptableUrlSuffix;
+  let lUpColumn1 = columnPrefix + lookupTable + columnSuffix;
+  let targetColumnName = columnPrefix + targetTable + columnSuffix;
+  let fkRecordIDName = fkTblName + odataSelectIdSuffix;
+  let changeSetRequest = [];
+  let requestSets = [];
+
+  try {
+    let globalContext = Xrm.Utility.getGlobalContext();
+    let requestUrl = globalContext.getClientUrl() + urlSuffix;
+
+    let fetchFkTableUrl = requestUrl + fkTblName + tableUrlSuffix + odataSelect + fkRecordIDName + "," + lUpColumn1;
+    let fkTable = await demo1.misc.getTable(fetchFkTableUrl);
+
+    let fetchLUpUrl =
+      requestUrl +
+      lookupTable +
+      lUptableUrlSuffix +
+      tableUrlSuffix +
+      odataSelect +
+      lookupTable +
+      lUptableUrlSuffix +
+      odataSelectIdSuffix +
+      "," +
+      targetColumnName;
+    let lUpTable = await demo1.misc.getTable(fetchLUpUrl);
+    for (let index = 0; index < fkTable.length; index++) {
+      const fkRecord = fkTable[index];
+      fkRecord[targetColumnName] =
+        lUpTable[
+          lUpTable.findIndex(function (lUpRecord, index) {
+            let lUpRecordName = lookupTable + lUptableUrlSuffix + odataSelectIdSuffix;
+            // console.log(lUpRecordName);
+            // console.log(lUpRecord[lUpRecordName]);
+            let fkRecordName = lUpColumn1;
+
+            // console.log(fkRecordName);
+            // console.log(fkRecord[fkRecordName]);
+            // debugger;
+            if (lUpRecord[lUpRecordName] == fkRecord[fkRecordName]) {
+              return true;
+            }
+          })
+        ][targetColumnName];
     }
+
+    // construct reqeust objects and change sets for execute multiple
+    for (let index = 0; index < fkTable.length; index++) {
+      const fkRecord = fkTable[index];
+      let payload = demo1.WebApiOps.createUpdateDataPayload(targetTable, targetTableName, fkRecord[targetColumnName]);
+      let req = new demo1.WebApiOps.updateRequest(fkTblName, fkRecord[fkRecordIDName], payload);
+      changeSetRequest.push(req);
+    }
+    requestSets = demo1.misc.prepareChangeSet(changeSetRequest);
+    console.log(requestSets);
+    let response = await demo1.misc.associateRecords(requestSets);
+    console.log(response);
   } catch (e) {
     demo1.misc.displayExceptionInfo(e);
   }
