@@ -91,25 +91,24 @@ ccc.util.validateParttern = function (str, pattern) {
 };
 
 /**
- * @function fieldValidation
- * @description for validating user input on text based controls
+ * @function fieldRegExValidation
+ * @description for validating user input on text based controls, there can only be one associated control per attribute on the form
  * @param {object} executionContext the execution context
  * @param {string} msgInvalid the message to be displayed if the input is invalid
  * @param {string} regEx a string used to formulate the regular expression for validating the field, use
  * back-slash (\) character to escape special characters in the parameter field of the form event handler definition
  */
-ccc.util.fieldValidation = function (executionContext, msgInvalid, regEx) {
+ccc.util.fieldRegExValidation = function (executionContext, msgInvalid, regEx) {
   try {
-    let atrToBeValidated = executionContext.getEventSource();
-    let fieldControl = atrToBeValidated.controls.get()[0]; // assuming there is only one control associated with the attribute
+    let attrToBeValidated = executionContext.getEventSource();
+    let fieldControl = attrToBeValidated.controls.get()[0]; // assuming there is only one control associated with the attribute
 
-    // decalre a validation object for the phone number field
+    // decalre a validation object for the control
     let regExp = new RegExp(`${regEx}`);
     let validationObject = new ccc.util.fieldValidationItem(regExp, msgInvalid);
-    console.log(regExp);
 
     // test the field value against the regex pattern
-    validationObject.isValid = ccc.util.validateParttern(atrToBeValidated.getValue(), validationObject.regExp);
+    validationObject.isValid = ccc.util.validateParttern(attrToBeValidated.getValue(), validationObject.regExp);
 
     if (validationObject.isValid) {
       // clear the field notification
@@ -127,14 +126,16 @@ ccc.util.formatField = function (executionContext) {
   try {
     let attr = executionContext.getEventSource();
     let fieldValue = attr.getValue();
-    let regex = /^[a-z]{1}\D+/;
-    if (regex.test(fieldValue)) {
-      let names = fieldValue.split(" ");
-      for (let i = 0; i < names.length; i++) {
-        names[i] = names[i][0].toUpperCase() + names[i].substr(1);
+    if (fieldValue != null) {
+      let regex = /^[a-z]{1}\D+/;
+      if (regex.test(fieldValue)) {
+        let names = fieldValue.split(" ");
+        for (let i = 0; i < names.length; i++) {
+          names[i] = names[i][0].toUpperCase() + names[i].substr(1);
+        }
+        fieldValue = names.join(" ");
+        attr.setValue(fieldValue);
       }
-      fieldValue = names.join(" ");
-      attr.setValue(fieldValue);
     }
   } catch (e) {
     ccc.util.displayExceptionInfo(e);
@@ -208,9 +209,6 @@ ccc.reservation.setOccupancyRecords = async function (
     let requestUrl = globalContext.getClientUrl() + urlSuffix;
 
     let formContext = executionContext.getFormContext(); // get the form context
-
-    // get the current table/entity name from the form context
-    let tableName = formContext.data.entity.getEntityName();
 
     // get the current record from the form context, including entityType, id, and name
     let currentRecord = formContext.data.entity.getEntityReference();
