@@ -142,6 +142,33 @@ ccc.util.formatField = function (executionContext) {
   }
 };
 
+ccc.util.randomStr = function (len, arr) {
+  var ans = "";
+  for (var i = len; i > 0; i--) {
+    ans += arr[Math.floor(Math.random() * arr.length)];
+  }
+  return ans;
+};
+
+ccc.util.generatePersonID = function (executionContext, idColumnLN) {
+  try {
+    const characterSetNum = "1234567890";
+    const characterSetAlpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const stringLengthNum = 7;
+    const stringLengthAlpha = 1;
+    let formContext = executionContext.getFormContext(); // get the form context
+    let attr = formContext.getAttribute(idColumnLN);
+    let fieldValue = attr.getValue();
+    if (fieldValue === null) {
+      fieldValue =
+        ccc.util.randomStr(stringLengthAlpha, characterSetAlpha) + ccc.util.randomStr(stringLengthNum, characterSetNum);
+      attr.setValue(fieldValue);
+    }
+  } catch (e) {
+    ccc.util.displayExceptionInfo(e);
+  }
+};
+
 ccc.reservation.setDataPayloadOccupancy = function (
   lookupLogicalNameList,
   lookupTableNameList,
@@ -214,18 +241,20 @@ ccc.reservation.setOccupancyRecords = async function (
     let currentRecord = formContext.data.entity.getEntityReference();
 
     // check for existing occupancy records of the current reservation
-    let filterOption = `?$filter=${filterColumnName} eq ${ccc.util.checkGuidForBrackets(currentRecord.id)}`;
-    let res = await Xrm.WebApi.retrieveMultipleRecords(targetTable, filterOption);
-    let existingRecords = res.entities;
-    if (existingRecords.length > 0) {
-      // delete the related record
-      for (let index = 0; index < existingRecords.length; index++) {
-        const exRec = existingRecords[index];
-        let response = await Xrm.WebApi.deleteRecord(
-          targetTable,
-          ccc.util.checkGuidForBrackets(exRec[targetTableIdColumnName])
-        );
-        console.log(response);
+    if (currentRecord == null) {
+      let filterOption = `?$filter=${filterColumnName} eq ${ccc.util.checkGuidForBrackets(currentRecord.id)}`;
+      let res = await Xrm.WebApi.retrieveMultipleRecords(targetTable, filterOption);
+      let existingRecords = res.entities;
+      if (existingRecords.length > 0) {
+        // delete the related record
+        for (let index = 0; index < existingRecords.length; index++) {
+          const exRec = existingRecords[index];
+          let response = await Xrm.WebApi.deleteRecord(
+            targetTable,
+            ccc.util.checkGuidForBrackets(exRec[targetTableIdColumnName])
+          );
+          console.log(response);
+        }
       }
     }
 
